@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 /**
- * 消息优先级
+ * 消息优先级(流量削峰)
  */
 public class Send {
 
@@ -29,6 +29,7 @@ public class Send {
 
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("x-max-priority", 10);//优先级队列,优先级更高（数值更大的）的消息先被消费,
+//        arguments.put("x-max-length", 10);
         channel.queueDeclare(QUEUE, false, false, false, arguments);
         channel.queueBind(QUEUE, EXCHANGE, ROUTINGKEY);
 
