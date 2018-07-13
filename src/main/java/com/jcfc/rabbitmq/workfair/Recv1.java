@@ -22,8 +22,10 @@ public class Recv1 {
 		final Channel channel = connection.createChannel();
 		//声明队列
 		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-		
-		channel.basicQos(1);//保证一次只分发一个
+
+		//消费者每次只取一个消息，保证一次只分发一个
+		int prefetchCount = 1;
+		channel.basicQos(prefetchCount);
 		
 		//定义一个消费者
 		Consumer consumer=new DefaultConsumer(channel){
