@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 /**
- * 消息优先级(流量削峰)
+ * 消息优先级(流量削峰)，redis中定义全局自增变量
  */
 public class Send {
 

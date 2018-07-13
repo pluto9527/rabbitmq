@@ -24,7 +24,7 @@ public class Recv2 {
          * any: 只要在发布消息时携带的有一对键值对headers满足队列定义的多个参数arguments的其中一个就能匹配上，注意这里是键值对的完全匹配，只匹配到键了，值却不一样是不行的；
          * all：在发布消息时携带的所有Entry必须和绑定在队列上的所有Entry完全匹配
          */
-        arguments.put("x-match", "all");
+        arguments.put("x-match", "all");//不加默认是all
 
         arguments.put("api", "login");
         arguments.put("version", 1.0);
