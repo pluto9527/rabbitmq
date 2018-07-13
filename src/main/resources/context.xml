@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/rabbit
+	http://www.springframework.org/schema/rabbit/spring-rabbit-1.7.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<context:component-scan base-package="com.jcfc.spring"/>
+
+	<!--  1.定义RabbitMQ的连接工厂 -->
+	<rabbit:connection-factory id="connectionFactory"
+		host="127.0.0.1" port="5672" username="root" password="root"
+		virtual-host="/root" />
+
+	<!-- MQ的管理，包括队列、交换器 声明等 -->
+	<rabbit:admin connection-factory="connectionFactory" />
+
+	<!-- 定义队列 -->
+	<rabbit:queue name="test_simple" durable="true" auto-declare="true" exclusive="false" auto-delete="false"/>
+
+	<!-- 定义交换器, fanout类型无bindingKey -->
+	<rabbit:fanout-exchange name="fanoutExchange" durable="true" auto-declare="true" auto-delete="false">
+		<rabbit:bindings>
+			<rabbit:binding queue="test_simple"/>
+		</rabbit:bindings>
+	</rabbit:fanout-exchange>
+
+	<!-- 队列监听 -->
+	<rabbit:listener-container connection-factory="connectionFactory" concurrency="2" task-executor="taskExecutor">
+		<rabbit:listener ref="consumer.simple" queue-names="test_simple" />
+	</rabbit:listener-container>
+
+	<!--异步-->
+	<task:executor id="taskExecutor" pool-size="2"></task:executor>
+
+	<bean id="messageConverter" class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter"></bean>
+
+	<!-- 2.定义Rabbit模板，指定连接工厂以及定义exchange -->
+	<rabbit:template id="amqpTemplate" connection-factory="connectionFactory" message-converter="messageConverter"/>
+</beans>
