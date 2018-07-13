@@ -12,7 +12,11 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 /**
- * 延时队列及私信队列
+ * 延时队列及死信队列
+ *
+ *  1. 一个消息被Consumer拒收了，并且reject方法的参数里requeue是false。也就是说不会被再次放在队列里，被其他消费者使用。
+    2. 上面的消息的TTL到了，消息过期了。
+    3. 队列的长度限制满了。排在前面的消息会被丢弃或者扔到死信路由上。
  */
 public class Send {
 
