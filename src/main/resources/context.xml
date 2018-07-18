@@ -14,7 +14,7 @@
 		host="127.0.0.1" port="5672" username="root" password="root"
 		virtual-host="/root" />
 
-	<!-- MQ的管理，包括队列、交换器 声明等 -->
+	<!-- MQ的管理，包括队列、交换器 声明等, 相当于channel -->
 	<rabbit:admin connection-factory="connectionFactory" />
 
 	<!-- 定义队列 -->
@@ -23,11 +23,11 @@
 	<!-- 定义交换器, fanout类型无bindingKey -->
 	<rabbit:fanout-exchange name="fanoutExchange" durable="true" auto-declare="true" auto-delete="false">
 		<rabbit:bindings>
-			<rabbit:binding queue="test_simple"/>
+			<rabbit:binding queue="test_simple"/>	<!-- 如果不是fanout，那么在此定义bindingKey（key=“”） -->
 		</rabbit:bindings>
 	</rabbit:fanout-exchange>
 
-	<!-- 队列监听 -->
+	<!-- 队列监听, concurrency多线程并发消费者为2个 -->
 	<rabbit:listener-container connection-factory="connectionFactory" concurrency="2" task-executor="taskExecutor">
 		<rabbit:listener ref="consumer.simple" queue-names="test_simple" />
 	</rabbit:listener-container>
@@ -35,6 +35,7 @@
 	<!--异步-->
 	<task:executor id="taskExecutor" pool-size="2"></task:executor>
 
+	<!--定义消息序列化转换器-->
 	<bean id="messageConverter" class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter"></bean>
 
 	<!-- 2.定义Rabbit模板，指定连接工厂以及定义exchange -->

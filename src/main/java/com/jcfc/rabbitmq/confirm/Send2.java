@@ -8,7 +8,6 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 
 /**
- * @author old wang
  *普通模式
  */
 public class Send2 {

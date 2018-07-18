@@ -14,6 +14,7 @@ public class Recv {
 
 	private static final String QUEUE_NAME = "test_simple_queue";
 
+	//老API
 	public static void main(String[] args) throws IOException,
 			TimeoutException, ShutdownSignalException,
 			ConsumerCancelledException, InterruptedException {
@@ -37,6 +38,7 @@ public class Recv {
 		}
 	}
 
+	//新API
 	private static void newapi() throws IOException, TimeoutException,
 			InterruptedException {
 		// 获取连接

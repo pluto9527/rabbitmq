@@ -6,6 +6,9 @@ import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+/**
+ *return监听器
+ */
 public class Send {
 
     private static final String EXCHANGE_NAME = "test_exchange_return";
@@ -18,10 +21,12 @@ public class Send {
         channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 
+        //增加return监听器，当发布消息且无匹配的队列时消息被返回给接收者
         channel.addReturnListener(new ReturnListener() {
             @Override
             public void handleReturn(int replyCode, String replyText, String exchange, String routingKey, AMQP.BasicProperties properties, byte[] body) throws IOException {
                 System.out.println("没有队列，返回消息: " + new String(body, "utf-8"));
+                //拿到exchange routingkey等重发消息
             }
         });
 

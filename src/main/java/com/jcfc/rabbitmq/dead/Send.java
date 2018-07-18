@@ -38,7 +38,7 @@ public class Send {
 
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("x-message-ttl",10000);//队列所有消息生存时间
-        arguments.put("x-max-length",10);//队列的消息的最大值长度，超过指定长度将会把最早的几条删除掉
+        arguments.put("x-max-length",20);//队列的消息的最大值长度，超过指定长度将会把最早的几条删除掉
         arguments.put("x-dead-letter-exchange",DEAD_EXCHANGE);//当队列消息长度大于最大长度、或者过期的等，将从队列中删除的消息推送到指定的交换机中去而不是丢弃掉,Features=DLX
         arguments.put("x-dead-letter-routing-key",DEAD_ROUTINGKEY);//将删除的消息推送到指定交换机的指定路由键的队列中去, Feature=DLK
 //        arguments.put("x-max-priority","");//优先级队列,优先级更高（数值更大的）的消息先被消费,
@@ -48,9 +48,18 @@ public class Send {
         channel.queueDeclare(DEAD_QUEUE, false, false, false, null);
         channel.queueBind(DEAD_QUEUE, DEAD_EXCHANGE, DEAD_ROUTINGKEY);
 
-        for (int i=0; i<20; i++) {
+//        for (int i=0; i<20; i++) {
+        for (int i=20; i>0; i--) {
             String msg = "Send dead " + i;
-            channel.basicPublish(EXCHANGE, ROUTINGKEY, null, msg.getBytes());
+            /**
+             * Consumer第一个收到的还是10。虽然10是第一个放进队列，但是它的过期时间最长。所以由此可见，即使一个消息比在同一队列中的其他消息提前过期，提前过期的也不会优先进入死信队列，它们还是按照入库的顺序让消费者消费。
+             * 如果第一进去的消息过期时间是1小时，那么死信队列的消费者也许等1小时才能收到第一个消息。
+             * 参考官方文档发现“Only when expired messages reach the head of a queue will they actually be discarded (or dead-lettered).”
+             * 只有当过期的消息到了队列的顶端（队首），才会被真正的丢弃或者进入死信队列。
+             */
+            AMQP.BasicProperties.Builder builder = new AMQP.BasicProperties().builder().expiration(String.valueOf(i * 1000));
+            channel.basicPublish(EXCHANGE, ROUTINGKEY, builder.build(), msg.getBytes());
+//            channel.basicPublish(EXCHANGE, ROUTINGKEY, null, msg.getBytes());
             System.out.println(msg);
         }
 

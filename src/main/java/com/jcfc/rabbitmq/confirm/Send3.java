@@ -9,6 +9,9 @@ import java.util.concurrent.TimeoutException;
 import com.jcfc.rabbitmq.util.ConnectionUtils;
 import com.rabbitmq.client.*;
 
+/**
+ * 异步Confirm
+ */
 public class Send3 {
 	private static final String QUEUE_NAME="test_queue_confirm3";
 	
