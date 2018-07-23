@@ -38,11 +38,11 @@ public class Recv {
 
                 try {
                     Thread.sleep(1000);
-                    int i = 1 / 0;
+//                    int i = 1 / 0;
                     channel.basicAck(envelope.getDeliveryTag(), false);
                 } catch (Exception e) {
-                    Map<String, Object> headers = properties.getHeaders();
-                    System.out.println("headers:"+headers);
+//                    Map<String, Object> headers = properties.getHeaders();
+//                    System.out.println("headers:"+headers);
 //                    System.out.println("count:"+getRetryCount(properties));
                     channel.basicNack(envelope.getDeliveryTag(), false, true);
                     e.printStackTrace();
@@ -55,7 +55,7 @@ public class Recv {
     }
 
     //获取重试次数（只有死信队列中有）
-    private static Long getRetryCount(AMQP.BasicProperties properties) {
+    private Long getRetryCount(AMQP.BasicProperties properties) {
         Long retryCount = 0L;
         try {
             Map<String, Object> headers = properties.getHeaders();

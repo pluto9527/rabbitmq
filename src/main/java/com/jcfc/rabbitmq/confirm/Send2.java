@@ -8,7 +8,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 
 /**
- *普通模式
+ *批量模式
  */
 public class Send2 {
 	private static final String QUEUE_NAME="test_queue_confirm1";

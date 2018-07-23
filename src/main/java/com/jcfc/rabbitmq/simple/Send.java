@@ -35,7 +35,7 @@ public class Send {
 		 * 3.autoDelete：是否自动删除，当最后一个消费者断开连接之后队列是否自动被删除
 		 * 4.arguments：
 		 */
-		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+		channel.queueDeclare(QUEUE_NAME, true, false, false, null);
 		String msg="hello simple !";
 
 //		MessageInfo messageInfo = new MessageInfo("张三", 20);
@@ -46,8 +46,8 @@ public class Send {
 
 		//发送消息
 //		channel.basicPublish("", QUEUE_NAME, null, msg.getBytes("utf-8"));
-//		channel.basicPublish("", QUEUE_NAME, builder.build(), msg.getBytes("utf-8"));
-		channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, msg.getBytes("utf-8"));
+		channel.basicPublish("", QUEUE_NAME, builder.build(), msg.getBytes("utf-8"));
+//		channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, msg.getBytes("utf-8"));
 //		channel.basicPublish("", QUEUE_NAME, null, gson.toJson(messageInfo).getBytes());//SerializationUtils.serialize(messageInfo)
 
 		System.out.println("--send msg:"+msg);

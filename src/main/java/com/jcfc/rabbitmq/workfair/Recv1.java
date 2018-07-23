@@ -39,7 +39,7 @@ public class Recv1 {
 				
 				try {
 					Thread.sleep(1000);
-					int i = 1/0;
+//					int i = 1/0;
 					/**
 					 * 手动应答：
 					 * 第一个参数deliveryTag：发布的每一条消息都会获得一个唯一的deliveryTag，(任何channel上发布的第一条消息的deliveryTag为1，此后的每一条消息都会加1)，deliveryTag在channel范围内是唯一的

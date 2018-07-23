@@ -35,7 +35,7 @@ public class Recv2 {
 				System.out.println("[2] Recv msg:"+msg);
 
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(2000);
 
 					//手动回执
 					channel.basicAck(envelope.getDeliveryTag(), false);

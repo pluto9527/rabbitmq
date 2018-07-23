@@ -23,6 +23,8 @@ public class Send1 {
 		channel.confirmSelect();
 		
 		String msgString="hello confirm message!";
+//		System.out.println("sleep。。");
+//		Thread.sleep(20000);
 		channel.basicPublish("", QUEUE_NAME, null,msgString.getBytes());
 		
 		if(!channel.waitForConfirms()){

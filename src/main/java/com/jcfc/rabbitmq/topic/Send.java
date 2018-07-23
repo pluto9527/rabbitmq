@@ -24,7 +24,7 @@ public class Send {
 		channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.TOPIC);
 		
 		String msgString="商品....";
-		channel.basicPublish(EXCHANGE_NAME, "goods.delete", null, msgString.getBytes());
+		channel.basicPublish(EXCHANGE_NAME, "goods.add", null, msgString.getBytes());
 		System.out.println("---send "+msgString);
 
 		channel.close();

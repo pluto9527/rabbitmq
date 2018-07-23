@@ -9,10 +9,10 @@
 
 	<context:component-scan base-package="com.jcfc.spring"/>
 
-	<!--  1.定义RabbitMQ的连接工厂 -->
+	<!--  1.定义RabbitMQ的连接工厂  publisher-confirms="true"-->
 	<rabbit:connection-factory id="connectionFactory"
 		host="127.0.0.1" port="5672" username="root" password="root"
-		virtual-host="/root" />
+		virtual-host="/root"/>
 
 	<!-- MQ的管理，包括队列、交换器 声明等, 相当于channel -->
 	<rabbit:admin connection-factory="connectionFactory" />

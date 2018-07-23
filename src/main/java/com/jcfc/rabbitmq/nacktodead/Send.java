@@ -12,7 +12,7 @@ import java.util.concurrent.TimeoutException;
 
 /**
  * 消费失败无限重发的处理,加入私信队列
- * 超过3次不再处理
+ * 超过3次不再处理（通过自己维护一个map，key是messageId，value是次数）
  */
 public class Send {
 

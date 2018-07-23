@@ -23,7 +23,7 @@ public class Recv {
 
 		Channel channel = connection.createChannel();
 
-		channel.queueDeclare(QUEUE_NAME, true, false, false, null);
+		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 
 		QueueingConsumer consumer = new QueueingConsumer(channel);
 

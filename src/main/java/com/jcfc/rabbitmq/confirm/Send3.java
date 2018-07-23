@@ -18,7 +18,7 @@ public class Send3 {
 	public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
 		Connection connection = ConnectionUtils.getConnection();
 		Channel channel = connection.createChannel();
-//		channel.queueDeclare(QUEUE_NAME,false,false,false,null);
+		channel.queueDeclare(QUEUE_NAME,false,false,false,null);
 		
 		//生产者调用confirmSelect 将channel设置为confirm模式 注意
 		channel.confirmSelect();
@@ -60,8 +60,8 @@ public class Send3 {
 			long seqNo = channel.getNextPublishSeqNo();
 			channel.basicPublish("", QUEUE_NAME, null, msgStr.getBytes());
 			confirmSet.add(seqNo);
-			System.out.println("Send "+seqNo);
-			Thread.sleep(3000);
+//			System.out.println("Send "+seqNo);
+//			Thread.sleep(3000);
 		}
 		
 	}
